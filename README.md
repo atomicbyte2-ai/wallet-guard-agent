@@ -34,6 +34,26 @@ node server.mjs            # listens on 0.0.0.0:3000
 PORT=8080 node server.mjs  # custom port
 ```
 
+## Deploy to Vercel
+
+No environment variables needed — the agent is dependency-free and calls
+the public BSC RPC directly.
+
+1. In the [Vercel dashboard](https://vercel.com/new), **Import Git
+   Repository** → pick `atomicbyte2-ai/wallet-guard-agent` → **Deploy**.
+   (Framework preset: Other. No build command, no env vars.)
+2. The endpoint is `https://<your-project>.vercel.app/api/index`:
+   `GET` returns a health card, `POST` with the `/screen` body returns
+   the verdict.
+
+Vercel Hobby functions are capped at 10 s, so the serverless handler
+(`api/index.js`) runs each RPC check with a 5 s timeout under an overall
+9 s deadline — worst case is two sequential RPC calls at 5 s + 4 s, well
+inside the limit. `vercel.json` sets `maxDuration: 60` (the Pro value);
+if a Hobby deploy rejects anything above 10, set it to `10` — the
+5 s / 9 s design already fits either way. The standalone server
+(`server.mjs`) keeps the original 8 s per-check timeout.
+
 ## Endpoint contract
 
 ### `GET /health`
