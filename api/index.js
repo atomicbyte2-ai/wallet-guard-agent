@@ -1,7 +1,9 @@
 // wallet-guard — Vercel serverless function (thin wrapper over ../lib/screen.js).
 //
-// Deployed as /api/index on Vercel Hobby. Same contract as the standalone
-// server: GET -> health, POST /screen -> verdict.
+// Same contract as the standalone server: GET -> health, POST /screen -> verdict.
+// (On the live hendryzu deployment the function is served at the project
+// root, so GET / is the health card and POST /screen is the screen call;
+// the /api/* paths 404 there — use the root routes.)
 //
 // Vercel Hobby functions are capped at 10 s, so this handler runs each
 // check with a 5 s per-call timeout AND an overall 9 s deadline from

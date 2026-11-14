@@ -41,10 +41,12 @@ the public BSC RPC directly.
 
 1. In the [Vercel dashboard](https://vercel.com/new), **Import Git
    Repository** → pick `atomicbyte2-ai/wallet-guard-agent` → **Deploy**.
-   (Framework preset: Other. No build command, no env vars.)
-2. The endpoint is `https://<your-project>.vercel.app/api/index`:
-   `GET` returns a health card, `POST` with the `/screen` body returns
-   the verdict.
+   (Framework preset: Node. No build command, no env vars.)
+2. The live deployment serves the agent at the project root —
+   `GET https://<your-project>.vercel.app/` returns the agent card,
+   `POST https://<your-project>.vercel.app/screen` with the `/screen`
+   body returns the verdict. (Verified live 2026-11-15; the `/api/*`
+   paths return 404 on this deployment, so use the root routes.)
 
 Vercel Hobby functions are capped at 10 s, so the serverless handler
 (`api/index.js`) runs each RPC check with a 5 s timeout under an overall
